@@ -2,24 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useContext, useState, useEffect } from "react";
 import UserContext from "../context/UserContext";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 
-
 const Login = () => {
   let navigate = useNavigate();
- 
 
-
-  
   const context = useContext(UserContext);
   const { loginUser, currentUser } = context;
   useEffect(() => {
-    if (localStorage.getItem('email')&&localStorage.getItem('uuid')){
-      navigate("/addpassword")
+    if (localStorage.getItem("email") && localStorage.getItem("uuid")) {
+      navigate("/addpassword");
     }
-  }, [currentUser])
+  }, [currentUser]);
 
   const [form, setForm] = useState({
     user_email: "",
@@ -39,8 +35,6 @@ const Login = () => {
   const handleLogin = () => {
     loginUser(emailDb.email, form.user_email, form.password);
   };
-
-
 
   return (
     <div>

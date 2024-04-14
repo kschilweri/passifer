@@ -20,10 +20,6 @@ const port = 3000;
 app.use(bodyparser.json());
 app.use(cors());
 
-var uuid = "";
-var email = "";
-
-
 
 //route to register a new user
 app.post("/registering_user", async (req, res) => {
@@ -102,14 +98,14 @@ app.post("/login", async (req, res) => {
 });
 
 //route to save password
-app.post(`/${uuid}/addpassword`, async (req, res) => {
+app.post('/addpassword', async (req, res) => {
   if (isEmpty(req.body)) {
     res.json({message:"Failed to save password: Request is empty"});
   } else {
     try {
       const password = req.body;
-      const db = client.db(email);
-      const collection = db.collection("passwords");
+      const db = client.db(req.header("email"));
+      const collection = db.collection(`passwords-${req.body.site}`);
       await collection.insertOne(password);
       res.json({message:"Password saved successfully"});
     } catch (error) {

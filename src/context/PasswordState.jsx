@@ -1,18 +1,34 @@
 import PasswordContext from "./PasswordContext";
 import { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const PasswordState = (props) => {
   const [passwords, setPasswords] = useState([]);
 
-  const addPasswords = async (site, username, password) => {
-    await fetch('http://localhost:3000/',{
+  const addPasswords = async (site, username, password, email) => {
+    const response = await fetch('http://localhost:3000/addpassword',{
         method:"POST",
         headers:{
-            "Content-type":"application/json"
+            "Content-type":"application/json",
+            "email":email
         },
         body: JSON.stringify({site, username, password, id:uuidv4()})
       })
+
+      const json = await response.json();
+
+      toast.success(json.message, {
+        position: "top-center",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
 
   }
   
@@ -41,7 +57,7 @@ const PasswordState = (props) => {
     }
 
   return (
-    <PasswordContext.Provider value={{passwords , getPasswords, deletePasswords, addPasswords}}>{props.children}</PasswordContext.Provider>
+    <PasswordContext.Provider value={{passwords , addPasswords}}>{props.children}</PasswordContext.Provider>
     );
 };
 

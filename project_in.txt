@@ -1,0 +1,30 @@
+packages:
+
+npm create vite@latest
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+npm install --save react-toastify
+npm install uuid
+
+
+
+
+
+websites:
+
+https://lordicon.com/
+https://tailwindcss.com/docs/functions-and-directives
+https://bg.ibelick.com/
+https://tailwindcss.com/docs/installation
+
+
+problem faced:
+
+when i was deleting an entry, backend was only deleting the first entry added. I tried to 
+send the mongoDB(_id) to the backend in the body. the backend then req.body._id and successfully received it,
+but it was not deleting the entry. Kept showing success message. I am using mongodb package for this app for experience as ive used express models in prev app.
+after trial and error, i found that no matter what i did, the backend received the _id as a string and not as ObjectId type (default mongoDb type for id)
+i tried to delete an entry by passing a query with the site, username, password in body and it worked!
+
+So i had to manually fill an id for each entry i passed. after researching, i stumbled upon npm uuid. now the id generated was unique and was a string.
+i passed this uuid in the query to the backend and voila! entry is deleted!

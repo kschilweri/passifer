@@ -105,7 +105,7 @@ app.post('/addpassword', async (req, res) => {
     try {
       const password = req.body;
       const db = client.db(req.header("email"));
-      const collection = db.collection(`passwords-${req.body.site}`);
+      const collection = db.collection('passwords');
       await collection.insertOne(password);
       res.json({message:"Password saved successfully"});
     } catch (error) {
@@ -115,11 +115,20 @@ app.post('/addpassword', async (req, res) => {
   }
 });
 
+
+//route to get password
+app.get("/getpasswords", async (req, res) => {
+  const db = client.db(req.header("email"))
+  const collection = db.collection('passwords');
+  const findResult = await collection.find({}).toArray()
+  res.json(findResult)
+})
+
 //route to delete password
-app.delete("/", async (req, res) => {
+app.delete("/deletepassword", async (req, res) => {
   try {
     const query = { id: req.body.id };
-    const db = client.db(email);
+    const db = client.db(req.header("email"));
     const collection = db.collection("passwords");
     await collection.deleteOne(query);
     res.json("Password deleted successfully");

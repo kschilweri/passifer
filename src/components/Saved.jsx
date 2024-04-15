@@ -6,13 +6,14 @@ import "react-toastify/dist/ReactToastify.css";
 const Saved = () => {
   const context = useContext(PasswordContext);
   const { passwords, getPasswords, deletePasswords } = context;
+  const email = localStorage.getItem("email")
 
   useEffect(() => {
-    getPasswords();
+    getPasswords(email);
   }, []);
 
-  const deletePassword = (id) => {
-    deletePasswords(id);
+  const handleDelete = (email,id) => {
+    deletePasswords(email,id);
     toast.error("Password deleted", {
       position: "top-center",
       autoClose: 1500,
@@ -78,7 +79,7 @@ const Saved = () => {
                       trigger="hover"
                       colors="primary:#646e78,secondary:#107c91,tertiary:#ebe6ef,quaternary:#3a3347"
                       onClick={() => {
-                        deletePassword(item.id);
+                        handleDelete(email,item.id);
                       }}
                     ></lord-icon>
                   </td>

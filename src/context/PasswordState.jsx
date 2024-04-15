@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 const PasswordState = (props) => {
   const [passwords, setPasswords] = useState([]);
 
+
   const addPasswords = async (site, username, password, email) => {
     const response = await fetch('http://localhost:3000/addpassword',{
         method:"POST",
@@ -32,32 +33,36 @@ const PasswordState = (props) => {
 
   }
   
-  const getPasswords = async () => {
+
+
+  const getPasswords = async (email) => {
       //backend api call
-      const response = await fetch('http://localhost:3000/',{
+      const response = await fetch('http://localhost:3000/getpasswords',{
         method:"GET",
         headers:{
-            "Content-type":"application/json"
+            "Content-type":"application/json",
+            "email":email
         },
       })
       const json = await response.json()
       setPasswords(json);
     }
 
-    const deletePasswords = async (id) => {
+    const deletePasswords = async (email,id) => {
       //backend direct delete api call 
-      await fetch('http://localhost:3000/',{
+      await fetch('http://localhost:3000/deletepassword',{
         method:"DELETE",
         headers:{
-            "Content-type":"application/json", 
+            "Content-type":"application/json",
+            "email":email 
         },
         body: JSON.stringify({id})
       })
-      getPasswords();
+      getPasswords(email);
     }
 
   return (
-    <PasswordContext.Provider value={{passwords , addPasswords}}>{props.children}</PasswordContext.Provider>
+    <PasswordContext.Provider value={{passwords , addPasswords, getPasswords, deletePasswords}}>{props.children}</PasswordContext.Provider>
     );
 };
 

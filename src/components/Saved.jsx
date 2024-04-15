@@ -77,7 +77,7 @@ const Saved = () => {
                     <lord-icon
                       src="https://cdn.lordicon.com/hjbrplwk.json"
                       trigger="hover"
-                      colors="primary:#646e78,secondary:#107c91,tertiary:#ebe6ef,quaternary:#3a3347"
+                      colors="primary:#646e78,secondary:#8930e8,tertiary:#ebe6ef,quaternary:#3a3347"
                       onClick={() => {
                         handleDelete(email,item.id);
                       }}

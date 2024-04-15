@@ -36,6 +36,15 @@ const Login = () => {
     loginUser(emailDb.email, form.user_email, form.password);
   };
 
+  const handleShowPassword = () => {
+    let x = document.getElementById("password");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  };
+
   return (
     <div>
       <ToastContainer
@@ -127,7 +136,7 @@ const Login = () => {
               </svg>
               <input
                 className="pl-2 outline-none border-none"
-                type="text"
+                type="password"
                 name="password"
                 id="password"
                 value={form.password}
@@ -135,10 +144,20 @@ const Login = () => {
                 placeholder="Password"
               />
             </div>
+            <div className="flex justify-left items-center px-2 my-2">
+          <input
+            type="checkbox"
+            className="form-check-input"
+            onClick={handleShowPassword}
+          />
+          <label className="flex justify-left items-center px-3" htmlFor="exampleCheck1">
+            Show password
+          </label>
+        </div>
             <button
               type="button"
               onClick={handleLogin}
-              className="block w-full bg-indigo-600 hover:bg-indigo-400 mt-4 py-2 rounded-2xl text-white font-semibold mb-2"
+              className="block w-full bg-indigo-600 hover:bg-indigo-400 mt-6 py-2 rounded-2xl text-white font-semibold mb-2"
             >
               Login
             </button>

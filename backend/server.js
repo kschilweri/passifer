@@ -20,10 +20,9 @@ const port = 3000;
 app.use(bodyparser.json());
 app.use(cors());
 
-
 //route to register a new user
 app.post("/registering_user", async (req, res) => {
-  let success = false
+  let success = false;
   if (isEmpty(req.body)) {
     res.status(500).json("Failed to create account: Request is empty");
   } else {
@@ -38,7 +37,10 @@ app.post("/registering_user", async (req, res) => {
     }
 
     if (dbNames.includes(req.body.email)) {
-      res.json({message:"Failed to create account: User with this email already exists"});
+      res.json({
+        message:
+          "Failed to create account: User with this email already exists",
+      });
     } else {
       try {
         const db = client.db(req.body.email);
@@ -47,15 +49,19 @@ app.post("/registering_user", async (req, res) => {
         await mongoose.connection
           .createCollection("user_details")
           .then(await collection.insertOne(req.body));
-          success=true;
-          uuid = req.body.uuid;
-          email = req.body.email;
-        res.json({success,uuid:uuid,email:email,message:"User successfully created, please login"});
-
+        success = true;
+        uuid = req.body.uuid;
+        email = req.body.email;
+        res.json({
+          success,
+          uuid: uuid,
+          email: email,
+          message: "User successfully created, please login",
+        });
       } catch (error) {
-        success=false;
+        success = false;
         console.error(error.message);
-        res.json({error:"Internal Server Error"});
+        res.json({ error: "Internal Server Error" });
       }
     }
   }
@@ -63,7 +69,7 @@ app.post("/registering_user", async (req, res) => {
 
 //route to login existing user
 app.post("/login", async (req, res) => {
-  let success=false;
+  let success = false;
   const admin = client.db().admin();
   const dbInfo = await admin.listDatabases();
   const dbNames = [];
@@ -82,32 +88,40 @@ app.post("/login", async (req, res) => {
       ) {
         email = req.body.email;
         uuid = user_results[0].uuid;
-        success=true;
-        res.json({success,uuid:uuid,email:email,message:"Login successful"});
+        success = true;
+        res.json({
+          success,
+          uuid: uuid,
+          email: email,
+          message: "Login successful",
+        });
       } else {
-        success=false;
-        res.json({success,message:"Invalid credentials"});
+        success = false;
+        res.json({ success, message: "Invalid credentials" });
       }
     } catch (error) {
       console.error(error.message);
       res.status(500).json("Internal Server Error");
     }
   } else {
-    res.json({success,message:"User does not exist, please register for a new account"});
+    res.json({
+      success,
+      message: "User does not exist, please register for a new account",
+    });
   }
 });
 
 //route to save password
-app.post('/addpassword', async (req, res) => {
+app.post("/addpassword", async (req, res) => {
   if (isEmpty(req.body)) {
-    res.json({message:"Failed to save password: Request is empty"});
+    res.json({ message: "Failed to save password: Request is empty" });
   } else {
     try {
       const password = req.body;
       const db = client.db(req.header("email"));
-      const collection = db.collection('passwords');
+      const collection = db.collection("passwords");
       await collection.insertOne(password);
-      res.json({message:"Password saved successfully"});
+      res.json({ message: "Password saved successfully" });
     } catch (error) {
       console.error(error.message);
       res.status(500).json("Internal Server Error");
@@ -115,14 +129,13 @@ app.post('/addpassword', async (req, res) => {
   }
 });
 
-
 //route to get password
 app.get("/getpasswords", async (req, res) => {
-  const db = client.db(req.header("email"))
-  const collection = db.collection('passwords');
-  const findResult = await collection.find({}).toArray()
-  res.json(findResult)
-})
+  const db = client.db(req.header("email"));
+  const collection = db.collection("passwords");
+  const findResult = await collection.find({}).toArray();
+  res.json(findResult);
+});
 
 //route to delete password
 app.delete("/deletepassword", async (req, res) => {

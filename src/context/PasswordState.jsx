@@ -20,16 +20,6 @@ const PasswordState = (props) => {
 
       const json = await response.json();
 
-      toast.success(json.message, {
-        position: "top-center",
-        autoClose: 1500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
 
   }
   

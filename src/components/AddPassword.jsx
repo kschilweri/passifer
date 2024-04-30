@@ -1,16 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import PasswordContext from "../context/PasswordContext";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const AddPassword = () => {
-  
+
   const context = useContext(PasswordContext)
-  const {addPasswords} = context
+  const { addPasswords } = context
 
   const email = localStorage.getItem('email')
-  
+
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -28,27 +28,44 @@ const AddPassword = () => {
   };
 
   const handleAdd = () => {
+
+    toast.success("Password added", {
+      position: "top-center",
+      autoClose: 1500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
     addPasswords(form.site, form.username, form.password, email)
+    
+
   }
 
   return (
+    <div>
+    <ToastContainer
+    position="top-center"
+    autoClose={3000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="dark"
+  />
     <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_20%,#63e_100%)]">
-            <ToastContainer
-        position="top-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
-      
-      
-      
+
+
+
+
       <div className="flex justify-center items-center mt-52">
+
+
         <div className="relative py-3 sm:max-w-xl sm:mx-auto">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-800 to-purple-700 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
           <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
@@ -120,6 +137,7 @@ const AddPassword = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };

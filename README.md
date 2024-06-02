@@ -1,6 +1,4 @@
-# Project Title
-
-passiFer
+# passiFer
 
 <a href="https://kausty-projects.web.app/passifer">View Demo</a>
 
